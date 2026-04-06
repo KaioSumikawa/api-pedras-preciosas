@@ -1,54 +1,134 @@
-const Stone = require('../models/Stone');
+// Importando o Service
+import stoneService from "../services/stoneService.js";
 
-// Criar uma nova pedra
-exports.createStone = async (req, res) => {
-  try {
-    const stone = await Stone.create(req.body);
-    res.status(201).json(stone);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+// Importando o ObjectId
+import { ObjectId } from "mongodb";
+
+// 🔹 LISTAR TODAS AS PEDRAS
+const getAllStones = async (req, res) => {
+    try {
+        const stones = await stoneService.getAll();
+        return res.status(200).json({ stones: stones });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: "Erro interno do servidor. Não foi possível listar as pedras."
+        });
+    }
 };
 
-// Listar todas as pedras
-exports.getAllStones = async (req, res) => {
-  try {
-    const stones = await Stone.find();
-    res.status(200).json(stones);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// 🔹 CADASTRAR UMA PEDRA
+const createStone = async (req, res) => {
+    try {
+        // pegando os dados do body
+        const { name, color, appearance, origin, scientific } = req.body;
+
+        await stoneService.Create(name, color, appearance, origin, scientific);
+
+        return res.status(201).json({
+            message: "A pedra foi cadastrada com sucesso!"
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: "Erro interno do servidor. Não foi possível cadastrar a pedra."
+        });
+    }
 };
 
-// Buscar uma pedra por ID
-exports.getStoneById = async (req, res) => {
-  try {
-    const stone = await Stone.findById(req.params.id);
-    if (!stone) return res.status(404).json({ error: 'Pedra não encontrada' });
-    res.status(200).json(stone);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// 🔹 DELETAR UMA PEDRA
+const deleteStone = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (ObjectId.isValid(id)) {
+            await stoneService.Delete(id);
+            return res.status(204).send(); // ✔️ correto pra 204
+        } else {
+            return res.status(400).json({
+                error: "Ocorreu um erro na validação da ID."
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: "Erro interno do servidor."
+        });
+    }
 };
 
-// Atualizar uma pedra (substituição total ou parcial)
-exports.updateStone = async (req, res) => {
-  try {
-    const stone = await Stone.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!stone) return res.status(404).json({ error: 'Pedra não encontrada' });
-    res.status(200).json(stone);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+// 🔹 ATUALIZAR UMA PEDRA
+const updateStone = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (ObjectId.isValid(id)) {
+            const { name, color, appearance, origin, scientific } = req.body;
+
+            const stone = await stoneService.Update(
+                id,
+                name,
+                color,
+                appearance,
+                origin,
+                scientific
+            );
+
+            return res.status(200).json({
+                message: "Pedra atualizada com sucesso!",
+                stone: stone
+            });
+
+        } else {
+            return res.status(400).json({
+                error: "Ocorreu um erro na validação da ID."
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: "Erro interno do servidor."
+        });
+    }
 };
 
-// Deletar uma pedra
-exports.deleteStone = async (req, res) => {
-  try {
-    const stone = await Stone.findByIdAndDelete(req.params.id);
-    if (!stone) return res.status(404).json({ error: 'Pedra não encontrada' });
-    res.status(204).send(); // sem conteúdo
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};  
+// 🔹 BUSCAR UMA PEDRA
+const getOneStone = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (ObjectId.isValid(id)) {
+            const stone = await stoneService.getOne(id);
+
+            if (!stone) {
+                return res.status(404).json({
+                    error: "A pedra buscada não foi encontrada."
+                });
+            }
+
+            return res.status(200).json({ stone });
+
+        } else {
+            return res.status(400).json({
+                error: "A ID informada é inválida."
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: "Erro interno do servidor."
+        });
+    }
+};
+
+export default {
+    getAllStones,
+    createStone,
+    deleteStone,
+    updateStone,
+    getOneStone
+};

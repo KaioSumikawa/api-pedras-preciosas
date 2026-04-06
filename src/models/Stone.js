@@ -1,19 +1,24 @@
 import mongoose from "mongoose";
 
-const descriptionSchema = new mongoose.Schema({
-  cor: { type: String },
-  durezaMohs: { type: Number, min: 1, max: 10 },
-  origem: { type: String },
-  brilho: { type: String }, // ex: "vítreo", "metálico"
+// 🔬 documento aninhado (igual ao descriptions do professor)
+const scientificSchema = new mongoose.Schema({
+    scientificName: String, // nome científico
+    type: String, // tipo (cristal, gema, etc.)
+    hardness: Number, // escala de Mohs
+    density: Number // densidade (g/cm³)
 });
 
 const stoneSchema = new mongoose.Schema({
-  nome: { type: String, required: true, unique: true },
-  precoPorQuilate: { type: Number },
-  estoque: { type: Number, default: 0 },
-  caracteristicas: descriptionSchema, // documento aninhado
+    // 🔹 dados comuns
+    name: String, // nome da pedra
+    color: [String], // lista de cores
+    appearance: String, // descrição visual
+    origin: [String], // países/regiões
+
+    // 🔬 aninhamento
+    scientific: scientificSchema
 });
 
-const Stone = mongoose.model('Stone', stoneSchema);
+const Stone = mongoose.model("Stone", stoneSchema);
 
 export default Stone;
