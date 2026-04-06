@@ -4,7 +4,7 @@ import stoneService from "../services/stoneService.js";
 // Importando o ObjectId
 import { ObjectId } from "mongodb";
 
-// 🔹 LISTAR TODAS AS PEDRAS
+// LISTAR TODAS AS PEDRAS
 const getAllStones = async (req, res) => {
     try {
         const stones = await stoneService.getAll();
@@ -17,7 +17,7 @@ const getAllStones = async (req, res) => {
     }
 };
 
-// 🔹 CADASTRAR UMA PEDRA
+// CADASTRAR UMA PEDRA
 const createStone = async (req, res) => {
     try {
         // pegando os dados do body
@@ -37,7 +37,7 @@ const createStone = async (req, res) => {
     }
 };
 
-// 🔹 DELETAR UMA PEDRA
+// DELETAR UMA PEDRA
 const deleteStone = async (req, res) => {
     try {
         const id = req.params.id;
@@ -59,7 +59,7 @@ const deleteStone = async (req, res) => {
     }
 };
 
-// 🔹 ATUALIZAR UMA PEDRA
+// ATUALIZAR UMA PEDRA
 const updateStone = async (req, res) => {
     try {
         const id = req.params.id;
@@ -95,7 +95,7 @@ const updateStone = async (req, res) => {
     }
 };
 
-// 🔹 BUSCAR UMA PEDRA
+// BUSCAR UMA PEDRA
 const getOneStone = async (req, res) => {
     try {
         const id = req.params.id;

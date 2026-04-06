@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// 🔬 documento aninhado (igual ao descriptions do professor)
+// documento aninhado (igual ao descriptions do professor)
 const scientificSchema = new mongoose.Schema({
     scientificName: String, // nome científico
     type: String, // tipo (cristal, gema, etc.)
@@ -9,13 +9,13 @@ const scientificSchema = new mongoose.Schema({
 });
 
 const stoneSchema = new mongoose.Schema({
-    // 🔹 dados comuns
+    // dados comuns
     name: String, // nome da pedra
     color: [String], // lista de cores
     appearance: String, // descrição visual
     origin: [String], // países/regiões
 
-    // 🔬 aninhamento
+    // aninhamento
     scientific: scientificSchema
 });
 

@@ -6,7 +6,7 @@ import cors from "cors";
 import stoneRoutes from "./routes/stoneRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
-// IMPORTAR DOTENV (pra usar Mongo Atlas)
+// IMPORTAR DOTENV
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -20,13 +20,16 @@ app.use(cors());
 app.use("/", stoneRoutes);
 app.use("/", userRoutes);
 
-// CONEXÃO COM MONGO ATLAS (NUVEM)
-mongoose.connect(process.env.MONGO_URI)
+// MONTANDO A STRING DE CONEXÃO
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.u00jdaa.mongodb.net/api-pedras?retryWrites=true&w=majority`;
+
+// CONEXÃO COM MONGO ATLAS
+mongoose.connect(uri)
 .then(() => {
-    console.log("✅ Conectado ao MongoDB Atlas");
+    console.log("Conectado ao MongoDB Atlas");
 })
 .catch((error) => {
-    console.log("❌ Erro ao conectar no MongoDB:", error);
+    console.log("Erro ao conectar no MongoDB:", error);
 });
 
 // SERVIDOR
@@ -36,6 +39,6 @@ app.listen(port, (error) => {
   if (error) {
     console.log(error);
   } else {
-    console.log(`🚀 API rodando em http://localhost:${port}`);
+    console.log(`API rodando em http://localhost:${port}`);
   }
 });

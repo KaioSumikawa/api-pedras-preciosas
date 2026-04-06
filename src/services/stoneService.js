@@ -3,7 +3,7 @@ import Stone from "../models/Stone.js";
 
 class stoneService {
 
-    // 🔹 LISTAR TODAS AS PEDRAS
+    // LISTAR TODAS AS PEDRAS
     async getAll() {
         try {
             const stones = await Stone.find();
@@ -13,7 +13,7 @@ class stoneService {
         }
     }
 
-    // 🔹 CADASTRAR UMA PEDRA
+    // CADASTRAR UMA PEDRA
     async Create(name, color, appearance, origin, scientific) {
         try {
             const newStone = new Stone({
@@ -31,7 +31,7 @@ class stoneService {
         }
     }
 
-    // 🔹 DELETAR UMA PEDRA
+    // DELETAR UMA PEDRA
     async Delete(id) {
         try {
             await Stone.findByIdAndDelete(id);
@@ -41,7 +41,7 @@ class stoneService {
         }
     }
 
-    // 🔹 ATUALIZAR UMA PEDRA
+    // ATUALIZAR UMA PEDRA
     async Update(id, name, color, appearance, origin, scientific) {
         try {
             const updatedStone = await Stone.findByIdAndUpdate(
@@ -64,7 +64,7 @@ class stoneService {
         }
     }
 
-    // 🔹 BUSCAR UMA PEDRA
+    // BUSCAR UMA PEDRA
     async getOne(id) {
         try {
             const stone = await Stone.findOne({ _id: id });

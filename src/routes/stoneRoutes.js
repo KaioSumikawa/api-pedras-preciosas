@@ -1,11 +1,12 @@
-const express = require('express');
+import stoneController from "../controllers/stoneController.js"; // default import
+
+import express from "express";
 const router = express.Router();
-const stoneController = require('../controllers/stoneController');
 
-router.post('/', stoneController.createStone);
-router.get('/', stoneController.getAllStones);
-router.get('/:id', stoneController.getStoneById);
-router.put('/:id', stoneController.updateStone);
-router.delete('/:id', stoneController.deleteStone);
+router.post("/", stoneController.createStone);
+router.get("/", stoneController.getAllStones);
+router.get("/:id", stoneController.getOneStone);
+router.put("/:id", stoneController.updateStone);
+router.delete("/:id", stoneController.deleteStone);
 
-module.exports = router;
+export default router;

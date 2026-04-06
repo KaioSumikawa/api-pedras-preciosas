@@ -1,8 +1,8 @@
-import User from "../models/Users.js";
+import User from "../models/User.js";
 
 class userService {
 
-    // 🔹 CADASTRAR USUÁRIO
+    // CADASTRAR USUÁRIO
     async Create(name, email, password) {
         try {
             const newUser = new User({
@@ -18,7 +18,7 @@ class userService {
         }
     }
 
-    // 🔹 BUSCAR USUÁRIO
+    // BUSCAR USUÁRIO
     async getOne(email) {
         try {
             const user = await User.findOne({ email: email });
