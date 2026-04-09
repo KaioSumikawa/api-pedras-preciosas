@@ -35,4 +35,4 @@ const Authorizarion = (req, res, next) => {
     }
 };
 
-export default { Authorizarion };
+export default Authorizarion;
