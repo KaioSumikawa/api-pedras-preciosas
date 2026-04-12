@@ -1,7 +1,10 @@
-import stoneController from "../controllers/stoneController.js"; // default import
-
 import express from "express";
+import stoneController from "../controllers/stoneController.js";
+import auth from "../middleware/auth.js";
+
 const router = express.Router();
+
+router.use(auth);
 
 router.post("/", stoneController.createStone);
 router.get("/", stoneController.getAllStones);

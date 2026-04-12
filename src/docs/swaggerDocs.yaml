@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: API de Pedras
+  version: 1.0.0
+
+paths:
+  /stones:
+    get:
+      summary: Retorna a lista de todas as pedras cadastradas
+      tags:
+        - Pedras
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Lista de pedras cadastradas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: "6782b9b16d6ea34ace5bd199"
+                        name:
+                          type: string
+                          example: "Ametista"
+                        color:
+                          type: array
+                          items:
+                            type: string
+                          example:
+                            - "Roxo"
+                            - "Violeta"
+                        appearance:
+                          type: string
+                          example: "Translúcida com brilho vítreo"
+                        origin:
+                          type: array
+                          items:
+                            type: string
+                          example:
+                            - "Brasil"
+                            - "Uruguai"
+                        scientific:
+                          type: object
+                          properties:
+                            scientificName:
+                              type: string
+                              example: "SiO2"
+                            type:
+                              type: string
+                              example: "Cristal"
+                            hardness:
+                              type: number
+                              example: 7
+                            density:
+                              type: number
+                              example: 2.65
+        500:
+          description: Erro interno do servidor
+
+    post:
+      summary: Cadastra uma nova pedra
+      tags:
+        - Pedras
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Quartzo Rosa"
+                color:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - "Rosa"
+                appearance:
+                  type: string
+                  example: "Opaca a translúcida"
+                origin:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - "Brasil"
+                scientific:
+                  type: object
+                  properties:
+                    scientificName:
+                      type: string
+                      example: "SiO2"
+                    type:
+                      type: string
+                      example: "Cristal"
+                    hardness:
+                      type: number
+                      example: 7
+                    density:
+                      type: number
+                      example: 2.65
+      responses:
+        201:
+          description: Pedra cadastrada com sucesso
+        500:
+          description: Erro interno do servidor
+
+  /stones/{id}:
+    get:
+      summary: Retorna uma pedra pelo ID
+      tags:
+        - Pedras
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          example: "6782b9b16d6ea34ace5bd199"
+      responses:
+        200:
+          description: Pedra encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stone:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      color:
+                        type: array
+                        items:
+                          type: string
+                      appearance:
+                        type: string
+                      origin:
+                        type: array
+                        items:
+                          type: string
+                      scientific:
+                        type: object
+                        properties:
+                          scientificName:
+                            type: string
+                          type:
+                            type: string
+                          hardness:
+                            type: number
+                          density:
+                            type: number
+        400:
+          description: ID inválida
+        404:
+          description: Pedra não encontrada
+        500:
+          description: Erro interno do servidor
+
+    put:
+      summary: Atualiza uma pedra
+      tags:
+        - Pedras
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                color:
+                  type: array
+                  items:
+                    type: string
+                appearance:
+                  type: string
+                origin:
+                  type: array
+                  items:
+                    type: string
+                scientific:
+                  type: object
+                  properties:
+                    scientificName:
+                      type: string
+                    type:
+                      type: string
+                    hardness:
+                      type: number
+                    density:
+                      type: number
+      responses:
+        200:
+          description: Pedra atualizada com sucesso
+        400:
+          description: ID inválida
+        500:
+          description: Erro interno do servidor
+
+    delete:
+      summary: Deleta uma pedra
+      tags:
+        - Pedras
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Pedra deletada com sucesso
+        400:
+          description: ID inválida
+        500:
+          description: Erro interno do servidor
+
+  /users/user:
+    post:
+      summary: Cadastra um novo usuário
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Felipe"
+                email:
+                  type: string
+                  example: "felipe@email.com"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        201:
+          description: Usuário cadastrado com sucesso
+        500:
+          description: Erro interno do servidor
+
+  /users/auth:
+    post:
+      summary: Realiza login e retorna um token JWT
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "felipe@email.com"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        200:
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  message:
+                    type: string
+                    example: "Login realizado com sucesso"
+        400:
+          description: Erro ao gerar token
+        401:
+          description: Credenciais inválidas
+        404:
+          description: Usuário não encontrado
+        500:
+          description: Erro interno do servidor
