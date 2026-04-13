@@ -9,7 +9,6 @@ API REST para gerenciamento de pedras preciosas, desenvolvida com **Node.js**, *
 - Atualização e exclusão de registros
 - Documento aninhado (`caracteristicas`) dentro do documento principal
 - Banco de dados hospedado na nuvem (MongoDB Atlas)
-- Documentação da API em Markdown (pasta `docs/`)
 
 ## Tecnologias utilizadas
 
